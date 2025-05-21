@@ -100,5 +100,6 @@ export function getTokenForProvider(
     case ModelProviderName.GROQ:
       return character.settings?.secrets?.GROQ_API_KEY || settings.GROQ_API_KEY; 
   }
-settings.MODEL_PROVIDER = ModelProviderName.OPENAI;
+  }
+  settings.MODEL_PROVIDER = ModelProviderName.OPENAI;
 settings.CHARACTER_MODEL_PROVIDER = ModelProviderName.OPENAI;
