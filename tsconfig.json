@@ -4,9 +4,7 @@
     "module": "esnext",
     "strict": true,
     "declaration": true,
-    "emitDeclarationOnly": false,
-    "outDir": "dist",
-    /* … pozostałe opcje … */
+    "outDir": "dist"
   },
   "include": ["src/**/*"]
 }
