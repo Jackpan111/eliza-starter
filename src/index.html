@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Eliza Chat</title>
+</head>
+<body>
+  <h1>Eliza Chat</h1>
+  <div id="chat-log"></div>
+  <input type="text" id="user-input" placeholder="Napisz coś..." />
+  <button onclick="sendMessage()">Wyślij</button>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("user-input").value;
+      const response = await fetch("/api/ping"); // tymczasowo testowy endpoint
+      const data = await response.json();
+      const log = document.getElementById("chat-log");
+      log.innerHTML += `<p><b>Ty:</b> ${input}</p>`;
+      log.innerHTML += `<p><b>Eliza:</b> ${data.message}</p>`;
+    }
+  </script>
+</body>
+</html>
