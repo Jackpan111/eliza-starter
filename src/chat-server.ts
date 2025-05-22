@@ -20,6 +20,8 @@ async function setupEliza() {
   const client = new DirectClient();
 
   character.id = stringToUuid(character.name);
+
+  // 👉 Dodajemy te wymagane pola jako undefined
   runtime = new AgentRuntime({
     token: process.env.OPENAI_API_KEY || '',
     character,
@@ -29,6 +31,8 @@ async function setupEliza() {
     actions: [],
     services: [],
     managers: [],
+    databaseAdapter: undefined,   // <-- kluczowa linia!
+    cacheManager: undefined       // <-- kluczowa linia!
   });
 
   await runtime.initialize();
@@ -47,11 +51,13 @@ app.post('/chat', async (req, res) => {
     return;
   }
 
-  const response = await runtime.act({ input: userMessage });
-  res.json({ response });
+  // 👉 użyjemy poprawnej metody do odpowiedzi
+  const result = await runtime.runOnce({ input: userMessage });
+  res.json({ response: result });
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, async () => {
   try {
     await setupEliza();
