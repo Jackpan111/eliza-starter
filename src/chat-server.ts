@@ -6,6 +6,8 @@ import { DirectClient } from '@elizaos/client-direct';
 import { AgentRuntime, elizaLogger, stringToUuid } from '@elizaos/core';
 import { bootstrapPlugin } from '@elizaos/plugin-bootstrap';
 import { createNodePlugin } from '@elizaos/plugin-node';
+import { initializeDatabase } from './database/index.js';
+import { initializeDbCache } from './cache/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,10 +20,13 @@ let runtime: AgentRuntime;
 
 async function setupEliza() {
   const client = new DirectClient();
-
   character.id = stringToUuid(character.name);
 
-  // 👉 Dodajemy te wymagane pola jako undefined
+  // 🔧 Tworzymy bazę danych i cache
+  const db = initializeDatabase(path.join(__dirname, '..', 'data'));
+  await db.init();
+  const cache = initializeDbCache(character, db);
+
   runtime = new AgentRuntime({
     token: process.env.OPENAI_API_KEY || '',
     character,
@@ -31,8 +36,8 @@ async function setupEliza() {
     actions: [],
     services: [],
     managers: [],
-    databaseAdapter: undefined,   // <-- kluczowa linia!
-    cacheManager: undefined       // <-- kluczowa linia!
+    databaseAdapter: db,
+    cacheManager: cache
   });
 
   await runtime.initialize();
@@ -51,7 +56,6 @@ app.post('/chat', async (req, res) => {
     return;
   }
 
-  // 👉 użyjemy poprawnej metody do odpowiedzi
   const result = await runtime.runOnce({ input: userMessage });
   res.json({ response: result });
 });
