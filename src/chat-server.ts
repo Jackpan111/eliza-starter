@@ -45,18 +45,18 @@ app.get('/', (req, res) => {
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.message;
 
-  if (!runtime) {
-    res.status(500).send('Agent not ready');
-    return;
+  if (!runtime || !directClient) {
+    return res.status(500).send('Agent not ready');
   }
 
-  const sessionId = 'web-demo-session'; // może być generowane dynamicznie
-  const reply = await directClient.sendMessage({
-    input: userMessage,
-    sessionId,
+  // Tworzymy sesję czatu (tylko raz per użytkownik/klient)
+  const session = await directClient.createChatSession({
+    sessionId: 'web-session',
     agentId: runtime.agentId,
   });
 
+  // Wysyłamy wiadomość i czekamy na odpowiedź
+  const reply = await session.send(userMessage);
   res.json({ response: reply.output });
 });
 
