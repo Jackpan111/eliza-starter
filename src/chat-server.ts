@@ -53,6 +53,10 @@ app.post('/chat', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
-  await setupEliza();
-  console.log(`💬 Eliza Chat is live at http://localhost:${PORT}`);
+  try {
+    await setupEliza();
+    console.log(`💬 Eliza Chat is live at http://localhost:${PORT}`);
+  } catch (err) {
+    console.error('❌ Błąd przy uruchamianiu Elizy:', err);
+  }
 });
