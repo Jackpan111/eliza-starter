@@ -6,8 +6,6 @@ import { DirectClient } from '@elizaos/client-direct';
 import { AgentRuntime, elizaLogger, stringToUuid } from '@elizaos/core';
 import { bootstrapPlugin } from '@elizaos/plugin-bootstrap';
 import { createNodePlugin } from '@elizaos/plugin-node';
-import { initializeDatabase } from './database/index.js';
-import { initializeDbCache } from './cache/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,12 +18,8 @@ let runtime: AgentRuntime;
 
 async function setupEliza() {
   const client = new DirectClient();
-  character.id = stringToUuid(character.name);
 
-  // 🔧 Tworzymy bazę danych i cache
-  const db = initializeDatabase(path.join(__dirname, '..', 'data'));
-  await db.init();
-  const cache = initializeDbCache(character, db);
+  character.id = stringToUuid(character.name);
 
   runtime = new AgentRuntime({
     token: process.env.OPENAI_API_KEY || '',
@@ -36,8 +30,8 @@ async function setupEliza() {
     actions: [],
     services: [],
     managers: [],
-    databaseAdapter: db,
-    cacheManager: cache
+    databaseAdapter: undefined,   // wymagane pole
+    cacheManager: undefined       // wymagane pole
   });
 
   await runtime.initialize();
@@ -56,8 +50,13 @@ app.post('/chat', async (req, res) => {
     return;
   }
 
-  const result = await runtime.runOnce({ input: userMessage });
-  res.json({ response: result });
+  try {
+    const result = await runtime.act({ input: userMessage });
+    res.json({ response: result });
+  } catch (err) {
+    console.error('❌ Błąd podczas przetwarzania wiadomości:', err);
+    res.status(500).send('Agent error');
+  }
 });
 
 const PORT = process.env.PORT || 3000;
