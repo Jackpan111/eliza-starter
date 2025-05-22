@@ -48,8 +48,12 @@ app.post('/chat', async (req, res) => {
     return;
   }
 
-  const reply = await runtime.runOnce({ input: userMessage });
-  res.json({ response: reply });
+  const result = await runtime.run({
+    input: userMessage,
+    metadata: {}, // jeśli potrzebujesz czegoś więcej
+  });
+
+  res.json({ response: result.output });
 });
 
 const PORT = process.env.PORT || 3000;
