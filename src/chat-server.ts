@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { character } from './character.js';
 import { DirectClient } from '@elizaos/client-direct';
-import { AgentRuntime, elizaLogger, stringToUuid, type Character } from '@elizaos/core';
+import { AgentRuntime, elizaLogger, stringToUuid } from '@elizaos/core';
 import { bootstrapPlugin } from '@elizaos/plugin-bootstrap';
 import { createNodePlugin } from '@elizaos/plugin-node';
 
@@ -14,11 +14,13 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..')));
 
+let directClient: DirectClient;
 let runtime: AgentRuntime;
 
 async function setupEliza() {
-  const client = new DirectClient();
+  directClient = new DirectClient();
   character.id = stringToUuid(character.name);
+
   runtime = new AgentRuntime({
     databaseAdapter: undefined,
     token: process.env.OPENAI_API_KEY || '',
@@ -33,7 +35,7 @@ async function setupEliza() {
   });
 
   await runtime.initialize();
-  client.registerAgent(runtime);
+  directClient.registerAgent(runtime);
 }
 
 app.get('/', (req, res) => {
@@ -48,12 +50,14 @@ app.post('/chat', async (req, res) => {
     return;
   }
 
-  const result = await runtime.run({
+  const sessionId = 'web-demo-session'; // może być generowane dynamicznie
+  const reply = await directClient.sendMessage({
     input: userMessage,
-    metadata: {}, // jeśli potrzebujesz czegoś więcej
+    sessionId,
+    agentId: runtime.agentId,
   });
 
-  res.json({ response: result.output });
+  res.json({ response: reply.output });
 });
 
 const PORT = process.env.PORT || 3000;
