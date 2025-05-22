@@ -1,7 +1,6 @@
 {
   "name": "@elizaos/eliza-starter",
   "version": "0.1.9",
-  "main": "src/index.ts",
   "type": "module",
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
