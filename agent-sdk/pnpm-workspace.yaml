@@ -1,5 +1,4 @@
 packages:
-    - "docs"
-    - "packages/*"
-    - "client"
-    - "agent"
+  - eliza-starter
+  - agent-sdk
+  - agent-sdk/**
