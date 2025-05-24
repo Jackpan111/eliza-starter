@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "declaration": true,
+    "skipLibCheck": true,
     "outDir": "dist"
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
