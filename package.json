@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "start": "vite preview --host",
+    "start": "serve -s dist -l ${PORT:-4173}",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "test": "vitest",
     "migrate": "echo 'No migrations to apply'"
@@ -16,7 +16,8 @@
     "@elizaos/client-direct": "^0.25.9",
     "@elizaos/plugin-bootstrap": "^0.25.9",
     "@elizaos/adapter-sqlite": "0.25.6-alpha.1",
-    "lucide-react": "^0.300.0"
+    "lucide-react": "^0.300.0",
+    "serve": "^14.2.0"
   },
   "devDependencies": {
     "@radix-ui/react-avatar": "^1.0.0",
