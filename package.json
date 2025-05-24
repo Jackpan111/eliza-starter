@@ -9,7 +9,7 @@
     "start": "vite preview",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "test": "vitest",
-    "migrate": "echo 'No migrations to apply'"  // ← dodajemy to
+    "migrate": "echo 'No migrations to apply'"
   },
   "dependencies": {
     "@elizaos/core": "^0.25.9",
