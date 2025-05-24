@@ -12,26 +12,26 @@
     "migrate": "echo 'No migrations to apply'"
   },
   "dependencies": {
-    "@elizaos/adapter-sqlite": "0.25.6-alpha.1",
-    "@elizaos/client-direct": "^0.25.9",
     "@elizaos/core": "^0.25.9",
+    "@elizaos/client-direct": "^0.25.9",
     "@elizaos/plugin-bootstrap": "^0.25.9",
+    "@elizaos/adapter-sqlite": "0.25.6-alpha.1",
     "lucide-react": "^0.300.0",
-    "serve": "^14.2.4"
+    "serve": "^14.2.0",
+    "vite": "^5.0.0"
   },
   "devDependencies": {
     "@radix-ui/react-avatar": "^1.0.0",
-    "@radix-ui/react-collapsible": "^1.0.0",
-    "@radix-ui/react-dialog": "^1.0.0",
-    "@radix-ui/react-label": "^1.0.0",
-    "@radix-ui/react-separator": "^1.0.0",
     "@radix-ui/react-slot": "^1.0.0",
-    "@radix-ui/react-tabs": "^1.0.0",
+    "@radix-ui/react-separator": "^1.0.0",
     "@radix-ui/react-toast": "^1.0.0",
+    "@radix-ui/react-tabs": "^1.0.0",
+    "@radix-ui/react-label": "^1.0.0",
     "@radix-ui/react-tooltip": "^1.0.0",
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@radix-ui/react-collapsible": "^1.0.0",
     "@tanstack/react-query": "^5.0.0",
     "eslint": "^8.0.0",
-    "vite": "^5.0.0",
     "vitest": "^1.0.0"
   }
 }
