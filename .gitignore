@@ -8,4 +8,4 @@ dist/
 
 db.sqlite
 .idea
-.tee-cloud
+.tee-cloudnode_modules/
