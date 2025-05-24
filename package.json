@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "start": "vite preview",
+    "start": "vite preview --host",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "test": "vitest",
     "migrate": "echo 'No migrations to apply'"
